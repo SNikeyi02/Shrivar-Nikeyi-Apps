@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Character encoding and responsive viewport settings -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Dynamic page title using ViewData -->
+    <title>@ViewData["Title"] - Oscorp pty</title>
+
+    <!-- Placeholder for future module-based imports -->
+    <script type="importmap"></script>
+
+    <!-- External stylesheets for Bootstrap and site-specific styling -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Prog_POE.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <!-- Header section with navigation bar -->
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm mb-3" id="main-navbar">
+            <div class="container-fluid">
+
+                <!-- Logo image for branding -->
+                <img id="images\Oscorp_Logo.png" src="images\Oscorp_Logo.png" height="50" width="100" alt="Oscorp Logo" />
+
+                <!-- Brand link to home page -->
+                <a class="navbar-brand" asp-area="10" asp-controller="Home" asp-action="Index">Oscorp pty</a>
+
+                <!-- Responsive toggle button for mobile view -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Collapsible navigation content -->
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                        </li>
+                    </ul>
+                </div>
+@* 
+                <!-- Login status indicator (static by default) -->
+                <div class="login-status-indicator">
+                    <span id="login-status">Logged out</span>
+                </div> *@
+
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main content container where views are rendered -->
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody() <!-- Injects view-specific content -->
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

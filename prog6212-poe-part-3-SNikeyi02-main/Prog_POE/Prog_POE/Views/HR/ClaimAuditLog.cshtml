@@ -1,0 +1,171 @@
+﻿@model List<Prog_POE.Models.ClaimAudit>
+
+@{
+    ViewData["Title"] = "Claim Audit Log";
+
+    var darkGreen = "#1E8449";
+    var lightGrayGreen = "#D1D4C7";
+    var mutedCyan = "#65A8B4";
+    var darkTeal = "#2A737E";
+}
+
+<style>
+    body {
+        background-color: @lightGrayGreen;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 30px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        border-top: 5px solid @darkGreen;
+    }
+
+    .header {
+        display: flex;
+        justify-content: between;
+        align-items: center;
+        margin-bottom: 30px;
+        border-bottom: 2px solid @mutedCyan;
+        padding-bottom: 20px;
+    }
+
+        .header h1 {
+            color: @darkTeal;
+            margin: 0;
+        }
+
+    .btn-back {
+        background-color: @mutedCyan;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+
+    .audit-timeline {
+        position: relative;
+        padding-left: 30px;
+    }
+
+    .audit-item {
+        position: relative;
+        margin-bottom: 30px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        border-left: 4px solid @mutedCyan;
+    }
+
+        .audit-item::before {
+            content: '';
+            position: absolute;
+            left: -40px;
+            top: 20px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: @darkGreen;
+            border: 3px solid white;
+        }
+
+    .audit-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .audit-action {
+        font-weight: bold;
+        color: @darkTeal;
+    }
+
+    .audit-date {
+        color: #666;
+        font-size: 14px;
+    }
+
+    .audit-processor {
+        color: #555;
+        margin-bottom: 5px;
+    }
+
+    .audit-comments {
+        color: #666;
+        font-style: italic;
+    }
+
+    .status-change {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        margin: 0 5px;
+    }
+
+    .status-old {
+        background-color: #F8D7DA;
+        color: #721C24;
+    }
+
+    .status-new {
+        background-color: #D1ECF1;
+        color: #0C5460;
+    }
+</style>
+
+<div class="container">
+    <div class="header">
+        <h1><i class="fas fa-history"></i> Claim Audit Log</h1>
+        <a href="@Url.Action("ManageClaims", "HR")" class="btn-back">
+            <i class="fas fa-arrow-left"></i> Back to Claims
+        </a>
+    </div>
+
+    @if (Model.Any())
+    {
+        <div class="audit-timeline">
+            @foreach (var audit in Model)
+            {
+                <div class="audit-item">
+                    <div class="audit-header">
+                        <span class="audit-action">@audit.ActionType</span>
+                        <span class="audit-date">@audit.ActionDate.ToString("yyyy-MM-dd HH:mm")</span>
+                    </div>
+
+                    <div class="audit-processor">
+                        <strong>Processor:</strong> @audit.Processor?.FirstName @audit.Processor?.LastName
+                    </div>
+
+                    <div class="audit-status">
+                        <strong>Status Change:</strong>
+                        <span class="status-change status-old">@audit.OldStatus</span>
+                        <i class="fas fa-arrow-right"></i>
+                        <span class="status-change status-new">@audit.NewStatus</span>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(audit.Comments))
+                    {
+                        <div class="audit-comments">
+                            <strong>Comments:</strong> @audit.Comments
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div style="text-align: center; padding: 40px; color: #666;">
+            <i class="fas fa-history fa-3x" style="margin-bottom: 20px;"></i>
+            <h3>No Audit History</h3>
+            <p>No audit records found for this claim.</p>
+        </div>
+    }
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">

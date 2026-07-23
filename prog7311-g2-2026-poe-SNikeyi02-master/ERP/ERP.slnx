@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="docker-compose.yml" />
+  </Folder>
+  <Project Path="ERP.Api/ERP.Api.csproj" Id="798a9317-f184-465e-95cf-31025ef3aaa5" />
+  <Project Path="ERP.Tests/ERP.Tests.csproj" Id="afabb02d-9b1d-4e68-b226-9d2a49985fd0" />
+  <Project Path="ERP/ERP.csproj" />
+</Solution>

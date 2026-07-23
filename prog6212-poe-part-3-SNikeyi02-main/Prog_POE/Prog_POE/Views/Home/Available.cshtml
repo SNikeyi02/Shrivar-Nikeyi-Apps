@@ -1,0 +1,74 @@
+﻿@{
+    ViewData["Title"] = "Available Jobs";
+}
+
+<style>
+
+    .jobs-container {
+        font-family: 'Segoe UI', sans-serif;
+        padding: 60px;
+        background-color: #D1D4C7;
+        text-align: center;
+        color: #333;
+        max-width: 600px;
+        margin: 50px auto;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .jobs-header {
+        font-size: 38px;
+        font-weight: bold;
+        color: #1E8449;
+        margin-bottom: 20px;
+        border-bottom: 3px solid #65A8B4;
+        display: inline-block;
+        padding-bottom: 10px;
+    }
+
+    .jobs-message {
+        font-size: 18px;
+        margin-top: 25px;
+        color: #2A737E;
+        line-height: 1.6;
+    }
+
+    .jobs-icon {
+        font-size: 60px;
+        color: #65A8B4;
+        margin-bottom: 10px;
+    }
+
+    .back-button {
+        margin-top: 40px;
+        padding: 12px 25px;
+        font-size: 18px;
+        background-color: #1E8449;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+        display: inline-block;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+        .back-button:hover {
+            /* Used Dark Teal for the button hover */
+            background-color: #2A737E;
+            transform: translateY(-1px);
+        }
+</style>
+
+<div class="jobs-container">
+    <div class="jobs-header">Available Jobs</div>
+
+    <div class="jobs-icon">📄</div>
+    <div class="jobs-message">
+        There are currently no job opportunities available.<br />
+        Please check back soon or contact us for more information.
+    </div>
+
+    <a href="/Home/About" class="back-button">Back to About Us</a>
+</div>

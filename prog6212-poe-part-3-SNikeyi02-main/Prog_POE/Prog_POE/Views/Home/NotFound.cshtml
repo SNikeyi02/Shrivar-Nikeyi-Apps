@@ -1,0 +1,101 @@
+﻿@{
+    ViewData["Title"] = "404 Not Found";
+    var darkGreen = "#1E8449";
+    var lightGrayGreen = "#D1D4C7";
+    var mutedCyan = "#65A8B4";
+    var darkTeal = "#2A737E";
+}
+
+<style>
+
+    .not-found-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        font-family: 'Segoe UI', sans-serif;
+        /* Background: Light Gray-Green */
+        background-color: @lightGrayGreen;
+        color: #333;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .error-box {
+        background-color: white;
+        padding: 40px 60px;
+        border-radius: 12px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        max-width: 500px;
+        width: 90%;
+        border-top: 8px solid @darkGreen; /* Dark Green accent strip */
+    }
+
+    .error-code {
+        font-size: 80px;
+        font-weight: 900;
+        /* Primary Error Color: Dark Teal */
+        color: @darkTeal;
+        margin-bottom: 5px;
+        line-height: 1;
+        letter-spacing: 5px;
+    }
+
+    .error-title {
+        font-size: 28px;
+        font-weight: bold;
+        /* Title Color: Dark Green */
+        color: @darkGreen;
+        margin-bottom: 15px;
+    }
+
+    .error-message {
+        font-size: 18px;
+        color: #555;
+        margin-bottom: 30px;
+        line-height: 1.5;
+    }
+
+    .button-container {
+        margin-top: 30px;
+    }
+
+    .home-button {
+        padding: 15px 30px;
+        font-size: 18px;
+        /* Button Background: Dark Green */
+        background-color: @darkGreen;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        display: inline-block;
+    }
+
+        .home-button:hover {
+            /* Button Hover: Dark Teal */
+            background-color: @darkTeal;
+            transform: translateY(-2px);
+        }
+</style>
+
+<div class="not-found-container">
+    <div class="error-box">
+        <div class="error-code">404</div>
+        <div class="error-title">Page Not Found</div>
+
+        <div class="error-message">
+            We're sorry, the page you requested could not be located on the Oscorp platform.<br />
+            The link may be broken or the page may have been moved.
+        </div>
+
+        <div class="button-container">
+            <a href="/Home/Index" class="home-button">
+                Go to Oscorp Home
+            </a>
+        </div>
+    </div>
+</div>

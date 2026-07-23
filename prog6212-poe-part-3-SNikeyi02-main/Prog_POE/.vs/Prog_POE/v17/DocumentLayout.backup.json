@@ -1,0 +1,70 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\lab_services_student\\OneDrive - ADvTECH Ltd\\VC Seond Year On VM\\Prog 2nd Semester\\prog6212-poe-part-3-SNikeyi02\\Prog_POE\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E70F6470-BE29-4F61-85F0-C76D17FBF4BE}|Prog_POE\\Prog_POE.csproj|c:\\users\\lab_services_student\\onedrive - advtech ltd\\vc seond year on vm\\prog 2nd semester\\prog6212-poe-part-3-snikeyi02\\prog_poe\\prog_poe\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E70F6470-BE29-4F61-85F0-C76D17FBF4BE}|Prog_POE\\Prog_POE.csproj|solutionrelative:prog_poe\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E70F6470-BE29-4F61-85F0-C76D17FBF4BE}|Prog_POE\\Prog_POE.csproj|c:\\users\\lab_services_student\\onedrive - advtech ltd\\vc seond year on vm\\prog 2nd semester\\prog6212-poe-part-3-snikeyi02\\prog_poe\\prog_poe\\data\\seeddata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E70F6470-BE29-4F61-85F0-C76D17FBF4BE}|Prog_POE\\Prog_POE.csproj|solutionrelative:prog_poe\\data\\seeddata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E70F6470-BE29-4F61-85F0-C76D17FBF4BE}|Prog_POE\\Prog_POE.csproj|c:\\users\\lab_services_student\\onedrive - advtech ltd\\vc seond year on vm\\prog 2nd semester\\prog6212-poe-part-3-snikeyi02\\prog_poe\\prog_poe\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{E70F6470-BE29-4F61-85F0-C76D17FBF4BE}|Prog_POE\\Prog_POE.csproj|solutionrelative:prog_poe\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\OneDrive - ADvTECH Ltd\\VC Seond Year On VM\\Prog 2nd Semester\\prog6212-poe-part-3-SNikeyi02\\Prog_POE\\Prog_POE\\Program.cs",
+              "RelativeDocumentMoniker": "Prog_POE\\Program.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\OneDrive - ADvTECH Ltd\\VC Seond Year On VM\\Prog 2nd Semester\\prog6212-poe-part-3-SNikeyi02\\Prog_POE\\Prog_POE\\Program.cs",
+              "RelativeToolTip": "Prog_POE\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-19T17:10:41.568Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SeedData.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\OneDrive - ADvTECH Ltd\\VC Seond Year On VM\\Prog 2nd Semester\\prog6212-poe-part-3-SNikeyi02\\Prog_POE\\Prog_POE\\Data\\SeedData.cs",
+              "RelativeDocumentMoniker": "Prog_POE\\Data\\SeedData.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\OneDrive - ADvTECH Ltd\\VC Seond Year On VM\\Prog 2nd Semester\\prog6212-poe-part-3-SNikeyi02\\Prog_POE\\Prog_POE\\Data\\SeedData.cs",
+              "RelativeToolTip": "Prog_POE\\Data\\SeedData.cs",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAkwHQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-19T17:13:54.703Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\OneDrive - ADvTECH Ltd\\VC Seond Year On VM\\Prog 2nd Semester\\prog6212-poe-part-3-SNikeyi02\\Prog_POE\\Prog_POE\\appsettings.json",
+              "RelativeDocumentMoniker": "Prog_POE\\appsettings.json",
+              "ToolTip": "C:\\Users\\lab_services_student\\OneDrive - ADvTECH Ltd\\VC Seond Year On VM\\Prog 2nd Semester\\prog6212-poe-part-3-SNikeyi02\\Prog_POE\\Prog_POE\\appsettings.json",
+              "RelativeToolTip": "Prog_POE\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-11-19T17:12:30.592Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

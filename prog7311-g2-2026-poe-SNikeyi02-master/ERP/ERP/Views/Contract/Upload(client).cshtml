@@ -1,0 +1,26 @@
+﻿@model ERP.Models.Contract
+
+@{
+    ViewData["Title"] = "Upload Signed Agreement";
+}
+
+<div class="container">
+    <h2>Upload Signed Agreement</h2>
+    <div class="alert alert-info">
+        <strong>Contract ID:</strong> @Model.ContractId <br />
+        <strong>Status:</strong> @Model.Status
+    </div>
+
+    <form asp-action="UploadPDF" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="contractId" value="@Model.ContractId" />
+        
+        <div class="form-group mb-3">
+            <label class="form-label">Select Signed PDF Document</label>
+            <input type="file" name="AgreementFile" class="form-control" accept=".pdf" required />
+            <small class="text-muted">Only .pdf files are accepted.</small>
+        </div>
+
+        <button type="submit" class="btn btn-success">Upload and Activate</button>
+        <a asp-action="Details" asp-route-id="@Model.ContractId" class="btn btn-link">Cancel</a>
+    </form>
+</div>

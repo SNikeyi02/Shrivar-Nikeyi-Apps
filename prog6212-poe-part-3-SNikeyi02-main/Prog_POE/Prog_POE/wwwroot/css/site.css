@@ -1,0 +1,109 @@
+/* --- THEME COLORS --- */
+:root {
+    --color-primary: #1E8449; /* Dark Green/Emerald */
+    --color-secondary: #D1D4C7; /* Light Gray-Green */
+    --color-accent: #65A8B4; /* Muted Cyan/Teal */
+    --color-dark-accent: #2A737E; /* Dark Teal */
+    --text-color-dark: #212529; /* Standard dark text */
+}
+
+/* --- NAVBAR STYLING --- */
+#main-navbar {
+    background-color: var(--color-primary) !important; /* Set Navbar background to Color 1 */
+    /* Remove default border */
+    border-bottom: none !important;
+    /* Use a dark teal shadow for depth */
+    box-shadow: 0 4px 6px -1px var(--color-dark-accent);
+}
+
+.navbar-brand {
+    color: var(--color-secondary) !important; /* Brand name color */
+    font-weight: bold;
+    margin-right: 20px; /* Space between brand and logo */
+}
+
+/* Navbar Links */
+.navbar-nav .nav-link {
+    color: var(--color-secondary) !important; /* Link text color: Color 2 */
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+    .navbar-nav .nav-link:hover {
+        color: var(--color-primary) !important; /* Hover text color: Color 1 */
+        background-color: var(--color-secondary); /* Hover background color: Color 2 */
+        border-radius: 5px;
+    }
+
+/* --- LOGO AND STATUS INDICATOR POSITIONING --- */
+
+/* Logo on Top Left (next to brand) */
+#logo-image {
+    height: 40px; /* Adjust size as needed */
+    width: auto;
+    margin-right: 10px;
+}
+
+/* Dynamic Status Indicator Styling (Top Right) */
+.login-status-indicator {
+    /* Use flexbox to align the status text and button */
+    display: flex;
+    align-items: center;
+    color: var(--color-secondary);
+    font-size: 0.9rem;
+    padding-left: 15px; /* Add some space from the navigation links */
+}
+
+/* Status Text Default (Logged out) */
+#login-status {
+    font-weight: bold;
+    color: #E74C3C; /* A clear 'logged out' color */
+}
+
+/* --- FOOTER STYLING --- */
+.footer {
+    background-color: var(--color-dark-accent); /* Footer background: Color 4 */
+    color: var(--color-secondary) !important; /* Footer text color: Color 2 */
+    border-top: 1px solid var(--color-accent) !important; /* Border color: Color 3 */
+}
+
+    .footer a {
+        color: var(--color-secondary) !important;
+    }
+
+body {
+    background-color: #f7f9fb; /* Keep a light background for readability, or use Color 2 if you want a fully themed page */
+}
+
+/*html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}*/

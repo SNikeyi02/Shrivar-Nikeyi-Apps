@@ -1,0 +1,156 @@
+﻿@using System.Security.Claims
+@{
+    ViewData["Title"] = "Lecturer Dashboard";
+    var darkGreen = "#1E8449";      // Primary Button, Accent
+    var lightGrayGreen = "#D1D4C7"; // Background
+    var mutedCyan = "#65A8B4";      // Card Border, Secondary Accent
+    var darkTeal = "#2A737E";       // Header, Button Hover
+}
+
+<style>
+        body {
+                background-color: @lightGrayGreen;
+                font-family: 'Segoe UI', sans-serif;
+
+    }
+
+        .dashboard-container {
+                padding: 50px 20px;
+                max-width: 900px;
+                margin: auto;
+                text-align: center;
+
+    }
+
+        .dashboard-header {
+                color: @darkTeal;
+                font-size: 38px;
+                font-weight: bold;
+                margin-bottom: 10px;
+
+    }
+
+        .dashboard-welcome {
+                color: #555;
+                font-size: 18px;
+                margin-bottom: 40px;
+                border-bottom: 2px solid @mutedCyan;
+                padding-bottom: 20px;
+
+    }
+
+        .action-grid {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 40px;
+                  justify-content: center;
+                margin-bottom: 40px;
+
+    }
+
+        .action-card {
+                flex: 1 1 350px;
+                  max-width: 400px;
+                  text-decoration: none;
+                background-color: white;
+                padding: 40px 30px;
+                  border-radius: 12px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                border: 2px solid @mutedCyan;
+                  text-align: center;
+
+    }
+
+            .action-card:hover {
+                    transform: translateY(-8px);
+                      box-shadow: 0 10px 30px rgba(30, 132, 73, 0.4);
+                      border-color: @darkGreen;
+
+    }
+
+        .card-icon {
+                font-size: 60px;
+                  color: @darkGreen; /* Icon color: Dark Green */
+                margin-bottom: 20px;
+
+    }
+
+        .card-title {
+                font-size: 24px;
+                  font-weight: bold;
+                color: @darkTeal; /* Title color: Dark Teal */
+                margin-bottom: 15px;
+
+    }
+
+        .card-description {
+                font-size: 16px;
+                color: #666;
+
+    }
+
+
+    /* Logout Button Styling */
+        .logout-container {
+                margin-top: 50px;
+
+    }
+
+        .logout-button {
+                display: inline-block;
+                padding: 15px 40px;
+                font-size: 18px;
+                font-weight: bold;
+                color: white;
+                background-color: #E74C3C; /* Used a standard warning color for Logout */
+                border: none;
+                border-radius: 8px;
+                text-decoration: none;
+                cursor: pointer;
+                transition: background-color 0.3s ease, transform 0.1s ease;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
+    }
+
+            .logout-button:hover {
+                    background-color: #C0392B;
+                    transform: translateY(-2px);
+
+    }
+</style>
+
+<div class="dashboard-container">
+
+    <div class="dashboard-header">Lecturer Portal</div>
+    <div class="dashboard-welcome">Welcome to the Oscorp Claim Submission System.</div>
+
+    <div class="action-grid">
+
+        <!-- 1. Submit Claim Button -->
+        <a href="/Lecturer/SubmitClaim" class="action-card">
+            <div class="card-icon"><i class="fas fa-file-upload"></i></div>
+            <div class="card-title">Submit New Claim</div>
+            <div class="card-description">Initiate and upload required documents for a new academic claim submission.</div>
+        </a>
+
+        <!-- 2. View Past Claims Button -->
+        <a href="@Url.Action("PastClaims", "Lecturer")" class="action-card">
+            <div class="card-icon"><i class="fas fa-history"></i></div>
+            <div class="card-title">View Past Claims</div>
+            <div class="card-description">View the status and details of all your previous claim submissions.</div>
+        </a>
+
+    </div>
+
+    <div class="logout-container">
+        <!-- 3. Logout Button -->
+        <a href="/Home/Index" class="logout-button">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+

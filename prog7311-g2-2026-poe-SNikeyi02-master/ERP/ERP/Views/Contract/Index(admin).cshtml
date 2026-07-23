@@ -1,0 +1,63 @@
+﻿@model IEnumerable<ERP.Models.Contract>
+
+@{
+    ViewData["Title"] = "Contract Management";
+}
+
+<h1>Contract Management</h1>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form asp-action="Index" method="get" class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label">Status</label>
+                <select name="status" class="form-control" asp-items="Html.GetEnumSelectList<ERP.Enums.ContractStatus>()">
+                    <option value="">-- All Statuses --</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Start Date</label>
+                <input type="date" name="start" class="form-control" />
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">End Date</label>
+                <input type="date" name="end" class="form-control" />
+            </div>
+            <div class="col-md-3 align-self-end">
+                <button type="submit" class="btn btn-primary w-100">Filter</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Create New Contract</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Client</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Client?.Name</td>
+                <td>@item.StartDate.ToShortDateString()</td>
+                <td>@item.EndDate.ToShortDateString()</td>
+                <td><span class="badge bg-info">@item.Status</span></td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ContractId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ContractId">Details</a> |
+                    <a asp-action="DownloadAgreement" asp-route-id="@item.ContractId">Download PDF</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

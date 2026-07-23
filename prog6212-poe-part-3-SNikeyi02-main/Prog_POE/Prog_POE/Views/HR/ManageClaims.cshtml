@@ -1,0 +1,231 @@
+﻿@model List<Prog_POE.Models.Claim>
+
+@{
+    ViewData["Title"] = "Manage Claims";
+
+    var darkGreen = "#1E8449";
+    var lightGrayGreen = "#D1D4C7";
+    var mutedCyan = "#65A8B4";
+    var darkTeal = "#2A737E";
+}
+
+<style>
+    body {
+        background-color: @lightGrayGreen;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .container {
+        max-width: 1400px;
+        margin: 30px auto;
+        padding: 30px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        border-top: 5px solid @darkGreen;
+    }
+
+    .header {
+        display: flex;
+        justify-content: between;
+        align-items: center;
+        margin-bottom: 30px;
+        border-bottom: 2px solid @mutedCyan;
+        padding-bottom: 20px;
+    }
+
+        .header h1 {
+            color: @darkTeal;
+            margin: 0;
+        }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+        .table th {
+            background-color: @mutedCyan;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table tr:hover {
+            background-color: #f5f5f5;
+        }
+
+    .status-pending {
+        background-color: #FFF3CD;
+        color: #856404;
+        padding: 4px 8px;
+        border-radius: 4px;
+    }
+
+    .status-approved {
+        background-color: #D1ECF1;
+        color: #0C5460;
+        padding: 4px 8px;
+        border-radius: 4px;
+    }
+
+    .status-rejected {
+        background-color: #F8D7DA;
+        color: #721C24;
+        padding: 4px 8px;
+        border-radius: 4px;
+    }
+
+    .btn-audit {
+        background-color: @darkTeal;
+        color: white;
+        padding: 6px 12px;
+        text-decoration: none;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        margin-right: 5px;
+    }
+
+    .search-box {
+        margin-bottom: 20px;
+        padding: 10px;
+        width: 300px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .filter-section {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .filter-select {
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        min-width: 150px;
+    }
+</style>
+
+<div class="container">
+    <div class="header">
+        <h1><i class="fas fa-file-alt"></i> Manage Claims</h1>
+    </div>
+
+    <div class="filter-section">
+        <input type="text" class="search-box" placeholder="Search claims..." id="searchInput">
+        <select class="filter-select" id="statusFilter">
+            <option value="">All Statuses</option>
+            <option value="PendingManagerApproval">Pending Manager</option>
+            <option value="PendingCoordinatorApproval">Pending Coordinator</option>
+            <option value="CoordinatorApproved">Approved</option>
+            <option value="Rejected">Rejected</option>
+        </select>
+    </div>
+
+    @if (Model.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Claim ID</th>
+                    <th>Lecturer</th>
+                    <th>Description</th>
+                    <th>Work Date</th>
+                    <th>Hours</th>
+                    <th>Overtime</th>
+                    <th>Total Amount</th>
+                    <th>Status</th>
+                    <th>Claim Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var claim in Model)
+                {
+                    <tr>
+                        <td>@claim.Id</td>
+                        <td>@claim.Lecturer?.FirstName @claim.Lecturer?.LastName</td>
+                        <td>@claim.Description</td>
+                        <td>@claim.WorkDate.ToString("yyyy-MM-dd")</td>
+                        <td>@claim.HoursWorked</td>
+                        <td>@(claim.OvertimeHours?.ToString() ?? "0")</td>
+                        <td>R @claim.TotalClaimAmount.ToString("N2")</td>
+                        <td>
+                            @switch (claim.Status)
+                            {
+                                case ClaimStatus.PendingManagerApproval:
+                                    <span class="status-pending">Pending Manager</span>
+                                    break;
+                                case ClaimStatus.PendingCoordinatorApproval:
+                                    <span class="status-pending">Pending Coordinator</span>
+                                    break;
+                                case ClaimStatus.CoordinatorApproved:
+                                    <span class="status-approved">Approved</span>
+                                    break;
+                                case ClaimStatus.Rejected:
+                                    <span class="status-rejected">Rejected</span>
+                                    break;
+                                default:
+                                    <span>@claim.Status</span>
+                                    break;
+                            }
+                        </td>
+                        <td>@claim.ClaimDate.ToString("yyyy-MM-dd")</td>
+                        <td>
+                            <a href="@Url.Action("ClaimAuditLog", "HR", new { claimId = claim.Id })" class="btn-audit">
+                                <i class="fas fa-history"></i> Audit
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div style="text-align: center; padding: 40px; color: #666;">
+            <i class="fas fa-file-alt fa-3x" style="margin-bottom: 20px;"></i>
+            <h3>No Claims Found</h3>
+            <p>There are no claims in the system yet.</p>
+        </div>
+    }
+</div>
+
+<script>
+    // Search functionality
+    document.getElementById('searchInput').addEventListener('keyup', function() {
+        filterClaims();
+    });
+
+    document.getElementById('statusFilter').addEventListener('change', function() {
+        filterClaims();
+    });
+
+    function filterClaims() {
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        const statusFilter = document.getElementById('statusFilter').value;
+        const rows = document.querySelectorAll('.table tbody tr');
+
+        rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            const statusCell = row.querySelector('td:nth-child(8)').textContent;
+
+            const matchesSearch = text.includes(searchTerm);
+            const matchesStatus = !statusFilter || statusCell.includes(statusFilter);
+
+            row.style.display = (matchesSearch && matchesStatus) ? '' : 'none';
+        });
+    }
+</script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">

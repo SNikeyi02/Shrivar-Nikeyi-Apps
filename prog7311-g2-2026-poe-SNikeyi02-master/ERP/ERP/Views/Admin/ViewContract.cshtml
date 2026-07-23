@@ -1,0 +1,170 @@
+﻿@model ERP.Models.Contract
+@using ERP.Enums
+
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="AdminDashboard" asp-controller="Admin">Dashboard</a></li>
+            <li class="breadcrumb-item active">Manage Contract</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Contract Details: @Model.Client?.Name</h5>
+                    <span class="badge bg-info">@Model.Status</span>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h6 class="text-primary border-bottom pb-1 mb-3">
+                                <i class="bi bi-sliders"></i> Service Level Agreements (SLA)
+                            </h6>
+
+                            @if (!string.IsNullOrEmpty(Model.ServiceLevel))
+                            {
+                                // Split the database string by semicolons
+                                var parts = Model.ServiceLevel.Split(';', StringSplitOptions.RemoveEmptyEntries);
+
+                                string clientTier = "Not Specified";
+                                string shippingMethod = "Not Specified";
+                                string financialTerms = "Not Specified";
+
+                                foreach (var part in parts)
+                                {
+                                    var cleanPart = part.Trim();
+
+                                    // Broadened checks to catch both old hardcoded text and new dynamic formats
+                                    if (cleanPart.Contains("Client", StringComparison.OrdinalIgnoreCase) || cleanPart.Contains("Tier", StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        clientTier = cleanPart;
+                                    }
+                                    else if (cleanPart.Contains("Shipping", StringComparison.OrdinalIgnoreCase) || cleanPart.Contains("Ground", StringComparison.OrdinalIgnoreCase) || cleanPart.Contains("Logistics", StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        shippingMethod = cleanPart;
+                                    }
+                                    else if (cleanPart.Contains("ZAR", StringComparison.OrdinalIgnoreCase) || cleanPart.Contains("Rate", StringComparison.OrdinalIgnoreCase) || cleanPart.Contains("Fixed", StringComparison.OrdinalIgnoreCase) || cleanPart.Contains("Financial", StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        financialTerms = cleanPart;
+                                    }
+                                }
+
+                                <div class="mb-3">
+                                    <small class="text-muted d-block fw-bold text-uppercase" style="font-size: 0.75rem; letter-spacing: 0.5px;">Client Tier Allocation</small>
+                                    <p class="text-dark mb-0 fw-normal">@clientTier</p>
+                                </div>
+
+                                <div class="mb-3">
+                                    <small class="text-muted d-block fw-bold text-uppercase" style="font-size: 0.75rem; letter-spacing: 0.5px;">Logistics &amp; Shipping Route</small>
+                                    <p class="text-dark mb-0 fw-normal">@shippingMethod</p>
+                                </div>
+
+                                <div class="mb-2">
+                                    <small class="text-muted d-block fw-bold text-uppercase" style="font-size: 0.75rem; letter-spacing: 0.5px;">Financial Billing Rules</small>
+                                    <p class="text-dark mb-0 fw-normal">@financialTerms</p>
+                                </div>
+                            }
+                            else
+                            {
+                                <p class="text-muted small">No custom Service Level details generated yet.</p>
+                            }
+                        </div>
+
+                        <div class="col-sm-6 d-flex flex-column justify-content-between">
+                            <div>
+                                <h6 class="text-primary border-bottom pb-1 mb-3">
+                                    <i class="bi bi-calendar-range"></i> Contract Duration
+                                </h6>
+                                <div class="mb-3">
+                                    <small class="text-muted d-block fw-bold text-uppercase" style="font-size: 0.75rem; letter-spacing: 0.5px;">Effective Commencement Date</small>
+                                    <p class="text-dark mb-0">@Model.StartDate.ToLongDateString()</p>
+                                </div>
+                                <div class="mb-3">
+                                    <small class="text-muted d-block fw-bold text-uppercase" style="font-size: 0.75rem; letter-spacing: 0.5px;">Expiration Termination Deadline</small>
+                                    <p class="text-dark mb-0">@Model.EndDate.ToLongDateString()</p>
+                                </div>
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(Model.AgreementFilePath))
+                            {
+                                <div class="mt-auto pt-3">
+                                    <a asp-action="ViewPDF" asp-controller="Admin" asp-route-id="@Model.ContractId" target="_blank" class="btn btn-outline-danger w-100 d-flex justify-content-between align-items-center">
+                                        <span><i class="bi bi-file-earmark-pdf-fill me-1"></i> View Signed Agreement</span>
+                                        <i class="bi bi-box-arrow-up-right small"></i>
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0 text-dark">Related Service Requests</h6>
+                </div>
+                <div class="card-body">
+                    @if (Model.ServiceRequests != null && Model.ServiceRequests.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Type</th>
+                                        <th>Cost (ZAR)</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var req in Model.ServiceRequests)
+                                    {
+                                        <tr>
+                                            <td class="font-monospace small">@req.ServiceRequestId</td>
+                                            <td><span class="badge bg-secondary">@req.Type</span></td>
+                                            <td class="fw-bold">R @req.CostZAR.ToString("N2")</td>
+                                            <td>
+                                                <span class="badge @(req.Status.ToString() == "Completed" ? "bg-success" : "bg-warning text-dark")">
+                                                    @req.Status
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted my-2 text-center small">No active service requests are attached to this ledger contract index.</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-primary shadow-sm">
+                <div class="card-header bg-primary text-white">Update Status</div>
+                <div class="card-body">
+                    <form asp-action="ChangeStatus" asp-controller="Admin" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@Model.ContractId" />
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small text-muted">New Status Designation</label>
+                            <select name="status" class="form-select" asp-items="Html.GetEnumSelectList<ContractStatus>()" required>
+                                <option value="">-- Change Status --</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100 fw-bold">Update &amp; Notify Client</button>
+                    </form>
+                    <p class="mt-3 small text-muted text-center" style="font-size: 0.8rem; line-height: 1.3;">
+                        Changing status executes state modification updates which dynamically trigger the <strong>Observer Pattern</strong> architecture to alert relevant company stakeholders.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,105 @@
+﻿@model ERP.Models.Client
+
+@{
+    ViewData["Title"] = "My Dashboard";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold">Welcome, @Model.Name</h1>
+        <div class="d-flex gap-2">
+            @if (User.IsInRole("Client") || User.IsInRole("Admin"))
+            {
+                <a asp-action="Create" asp-controller="Contract" class="btn btn-success shadow-sm">
+                    <i class="bi bi-file-earmark-plus"></i> Create Contract
+                </a>
+            }
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Your Service Contracts</h4>
+        </div>
+
+        <div class="card-body">
+            @if (Model.Contracts != null && Model.Contracts.Any())
+            {
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Status</th>
+                            <th class="text-center">Actions Management</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var contract in Model.Contracts)
+                        {
+                            <tr>
+                                <td>@contract.StartDate.ToShortDateString()</td>
+                                <td>@contract.EndDate.ToShortDateString()</td>
+                                <td>
+                                    <span class="badge @(contract.Status == ERP.Enums.ContractStatus.Active ? "bg-success" : "bg-warning text-dark")">
+                                        @contract.Status
+                                    </span>
+                                </td>
+
+                                <td class="text-center">
+                                    <div class="d-flex flex-wrap gap-1 justify-content-center">
+
+
+                                        @if (contract.Status == ERP.Enums.ContractStatus.Active)
+                                        {
+                                            <a asp-action="Create" asp-controller="ServiceRequest" asp-route-contractId="@contract.ContractId" class="btn btn-sm btn-outline-warning">
+                                                <i class="bi bi-plus-circle"></i> New Request
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            
+                                            <button type="button" class="btn btn-sm btn-outline-warning disabled" style="cursor: not-allowed;" title="Requests only allowed for Active contracts">
+                                                <i class="bi bi-plus-circle"></i> New Request
+                                            </button>
+                                        }
+
+                                        @if (contract.Status == ERP.Enums.ContractStatus.Active)
+                                        {
+                                            if (!string.IsNullOrEmpty(contract.AgreementFilePath))
+                                            {
+                                                <a asp-action="DownloadAgreement"
+                                                   asp-controller="Contract"
+                                                   asp-route-id="@contract.ContractId"
+                                                   download
+                                                   class="btn btn-sm btn-outline-success fw-bold">
+                                                    <i class="bi bi-file-earmark-pdf-fill"></i> PDF Download
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-sm btn-outline-secondary opacity-50" disabled title="No PDF uploaded">
+                                                    <i class="bi bi-file-earmark-x"></i> No PDF
+                                                </button>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-sm btn-secondary" disabled>
+                                                <i class="bi bi-lock"></i> Inactive
+                                            </button>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-warning text-center">No contracts found for your account.</div>
+            }
+        </div>
+    </div>
+</div>

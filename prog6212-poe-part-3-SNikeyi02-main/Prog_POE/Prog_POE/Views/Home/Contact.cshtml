@@ -1,0 +1,175 @@
+﻿@{
+    ViewData["Title"] = "Contact Us";
+}
+
+<style>
+    .contact-container {
+        font-family: 'Segoe UI', sans-serif;
+        padding: 60px;
+        /* Background: Light Gray-Green */
+        background-color: #D1D4C7;
+        color: #333;
+        max-width: 900px;
+        margin: 50px auto;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .contact-header {
+        font-size: 36px;
+        font-weight: bold;
+        text-align: center;
+        /* Header: Dark Green */
+        color: #1E8449;
+        margin-bottom: 40px;
+        border-bottom: 3px solid #65A8B4;
+        display: inline-block;
+        padding-bottom: 10px;
+    }
+
+    .header-wrapper {
+        text-align: center;
+    }
+
+    .contact-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        margin-bottom: 40px;
+    }
+
+    .contact-section {
+        background-color: white;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        border-top: 5px solid #1E8449; /* Dark Green accent strip */
+    }
+
+        .contact-section h3 {
+            font-size: 22px;
+            /* Section Header: Dark Teal */
+            color: #2A737E;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed #D1D4C7;
+            padding-bottom: 10px;
+        }
+
+    .contact-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 10px;
+        font-size: 16px;
+        line-height: 1.4;
+    }
+
+    .contact-icon {
+        /* Use Dark Green for icons */
+        color: #1E8449;
+        margin-right: 10px;
+        font-size: 20px;
+        line-height: 1.4;
+    }
+
+    .contact-link {
+        color: #2A737E;
+        text-decoration: none;
+    }
+
+        .contact-link:hover {
+            text-decoration: underline;
+            color: #65A8B4; 
+        }
+
+    .back-button-container {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .back-button {
+        padding: 12px 25px;
+        font-size: 16px;
+        background-color: #1E8449;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: bold;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        display: inline-block;
+    }
+
+        .back-button:hover {
+            background-color: #2A737E;
+            transform: translateY(-1px);
+        }
+</style>
+
+<!-- Load Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<div class="contact-container">
+    <div class="header-wrapper">
+        <div class="contact-header">Contact Oscorp Industry</div>
+    </div>
+
+    <div class="contact-grid">
+
+        <!-- General Enquiries -->
+        <div class="contact-section">
+            <h3>General Enquiries</h3>
+            <div class="contact-item">
+                <span class="contact-icon"><i class="fas fa-phone"></i></span>
+                <div>Phone: (011) 555-OSCR (6727)</div>
+            </div>
+            <div class="contact-item">
+                <span class="contact-icon"><i class="fas fa-envelope"></i></span>
+                <div>Email: <a href="mailto:info@oscorp.pty" class="contact-link">info@oscorp.pty</a></div>
+            </div>
+            <div class="contact-item">
+                <span class="contact-icon"><i class="fas fa-clock"></i></span>
+                <div>Hours: Mon - Fri, 8:00 AM - 5:00 PM (EST)</div>
+            </div>
+        </div>
+
+        <!-- Technical Support -->
+        <div class="contact-section">
+            <h3>Technical Support</h3>
+            <div class="contact-item">
+                <span class="contact-icon"><i class="fas fa-headset"></i></span>
+                <div>Support Line: (011) 555-TECH (8324)</div>
+            </div>
+            <div class="contact-item">
+                <span class="contact-icon"><i class="fas fa-envelope"></i></span>
+                <div>Email: <a href="mailto:support@oscorp.pty" class="contact-link">support@oscorp.pty</a></div>
+            </div>
+            <div class="contact-item">
+                <span class="contact-icon"><i class="fas fa-exclamation-triangle"></i></span>
+                <div>For urgent system failures only.</div>
+            </div>
+        </div>
+
+        <!-- Headquarters -->
+        <div class="contact-section">
+            <h3>Headquarters</h3>
+            <div class="contact-item">
+                <span class="contact-icon"><i class="fas fa-map-marker-alt"></i></span>
+                <div>
+                    Oscorp Pty Headquarters<br />
+                    7 - 42 Oscorp Road<br />
+                    New York, 25081
+                </div>
+            </div>
+            <div class="contact-item">
+                <span class="contact-icon"><i class="fas fa-fax"></i></span>
+                <div>Fax: (011) 555-0001</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="back-button-container">
+        <a href="/Home/Index" class="back-button">Back to Home</a>
+    </div>
+
+</div>

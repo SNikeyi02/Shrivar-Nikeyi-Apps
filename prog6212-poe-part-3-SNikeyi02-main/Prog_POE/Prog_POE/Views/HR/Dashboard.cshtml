@@ -1,0 +1,328 @@
+﻿@model Prog_POE.Controllers.DashboardStats
+
+@{
+    ViewData["Title"] = "HR Dashboard";
+
+    // COLOR PALETTE
+    var darkGreen = "#1E8449";
+    var lightGrayGreen = "#D1D4C7";
+    var mutedCyan = "#65A8B4";
+    var darkTeal = "#2A737E";
+    var neutralGray = "#F8F8F8";
+    var warningColor = "#F39C12";
+    var successColor = "#27AE60";
+}
+
+<style>
+    body {
+        background-color: @lightGrayGreen;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .dashboard-container {
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 30px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        border-top: 5px solid @darkGreen;
+    }
+
+    .dashboard-header {
+        text-align: center;
+        margin-bottom: 40px;
+        border-bottom: 2px solid @mutedCyan;
+        padding-bottom: 20px;
+    }
+
+        .dashboard-header h1 {
+            color: @darkTeal;
+            font-size: 36px;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .dashboard-header p {
+            color: #666;
+            font-size: 16px;
+            margin: 10px 0 0 0;
+        }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 25px;
+        margin-bottom: 40px;
+    }
+
+    .stat-card {
+        background: linear-gradient(135deg, @neutralGray, #fff);
+        border-radius: 10px;
+        padding: 25px;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border-left: 4px solid @mutedCyan;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-card.total-lecturers {
+            border-left-color: @darkTeal;
+        }
+
+        .stat-card.total-claims {
+            border-left-color: @mutedCyan;
+        }
+
+        .stat-card.pending-claims {
+            border-left-color: @warningColor;
+        }
+
+        .stat-card.manager-approved {
+            border-left-color: #3498DB;
+        }
+
+        .stat-card.coordinator-approved {
+            border-left-color: @successColor;
+        }
+
+        .stat-card.total-value {
+            border-left-color: @darkGreen;
+        }
+
+    .stat-number {
+        font-size: 42px;
+        font-weight: bold;
+        color: @darkTeal;
+        margin: 10px 0;
+        display: block;
+    }
+
+    .stat-label {
+        font-size: 16px;
+        color: #555;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .stat-icon {
+        font-size: 24px;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .actions-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 40px;
+    }
+
+    .action-card {
+        background: white;
+        border-radius: 8px;
+        padding: 25px;
+        text-align: center;
+        text-decoration: none;
+        color: @darkTeal;
+        border: 2px solid @mutedCyan;
+        transition: all 0.3s ease;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    }
+
+        .action-card:hover {
+            background: @mutedCyan;
+            color: white;
+            text-decoration: none;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .action-card i {
+            font-size: 32px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+    .action-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 0;
+    }
+
+    .action-description {
+        font-size: 14px;
+        color: #666;
+        margin: 8px 0 0 0;
+    }
+
+    .action-card:hover .action-description {
+        color: white;
+    }
+
+    .welcome-section {
+        background: linear-gradient(135deg, @mutedCyan, @darkTeal );
+        color: white;
+        padding: 30px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+        .welcome-section h2 {
+            margin: 0 0 10px 0;
+            font-size: 28px;
+        }
+
+        .welcome-section p {
+            margin: 0;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+    .quick-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 30px;
+    }
+
+    .quick-stat {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+        .quick-stat .number {
+            font-size: 24px;
+            font-weight: bold;
+            display: block;
+        }
+
+        .quick-stat .label {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+</style>
+
+<div class="dashboard-container">
+    <!-- Welcome Section -->
+    <div class="welcome-section">
+        <h2>Welcome to HR Dashboard</h2>
+        <p>Manage users, claims, and generate comprehensive reports</p>
+
+        <div class="quick-stats">
+            <div class="quick-stat">
+                <span class="number">@Model.TotalLecturers</span>
+                <span class="label">Active Lecturers</span>
+            </div>
+            <div class="quick-stat">
+                <span class="number">@Model.TotalClaims</span>
+                <span class="label">Total Claims</span>
+            </div>
+            <div class="quick-stat">
+                <span class="number">R @Model.TotalClaimValue.ToString("N2")</span>
+                <span class="label">Total Approved Value</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Statistics Grid -->
+    <div class="stats-grid">
+        <div class="stat-card total-lecturers">
+            <i class="fas fa-chalkboard-teacher stat-icon"></i>
+            <span class="stat-number">@Model.TotalLecturers</span>
+            <span class="stat-label">Total Lecturers</span>
+        </div>
+
+        <div class="stat-card total-claims">
+            <i class="fas fa-file-invoice-dollar stat-icon"></i>
+            <span class="stat-number">@Model.TotalClaims</span>
+            <span class="stat-label">Total Claims</span>
+        </div>
+
+        <div class="stat-card pending-claims">
+            <i class="fas fa-clock stat-icon"></i>
+            <span class="stat-number">@Model.PendingClaims</span>
+            <span class="stat-label">Pending Claims</span>
+        </div>
+
+        <div class="stat-card manager-approved">
+            <i class="fas fa-user-check stat-icon"></i>
+            <span class="stat-number">@Model.ManagerApprovedClaims</span>
+            <span class="stat-label">Manager Approved</span>
+        </div>
+
+        <div class="stat-card coordinator-approved">
+            <i class="fas fa-user-shield stat-icon"></i>
+            <span class="stat-number">@Model.CoordinatorApprovedClaims</span>
+            <span class="stat-label">Coordinator Approved</span>
+        </div>
+
+        <div class="stat-card total-value">
+            <i class="fas fa-money-bill-wave stat-icon"></i>
+            <span class="stat-number">R @Model.TotalClaimValue.ToString("N2")</span>
+            <span class="stat-label">Total Claim Value</span>
+        </div>
+    </div>
+
+    <!-- Quick Actions Grid -->
+    <div class="actions-grid">
+        <a href="@Url.Action("ManageUsers", "HR")" class="action-card">
+            <i class="fas fa-users"></i>
+            <h3 class="action-title">Manage Users</h3>
+            <p class="action-description">Add, edit, and manage system users</p>
+        </a>
+
+        <a href="@Url.Action("ManageClaims", "HR")" class="action-card">
+            <i class="fas fa-file-alt"></i>
+            <h3 class="action-title">Manage Claims</h3>
+            <p class="action-description">View and manage all claims</p>
+        </a>
+
+        <a href="@Url.Action("GenerateReport", "HR")" class="action-card">
+            <i class="fas fa-chart-bar"></i>
+            <h3 class="action-title">Generate Reports</h3>
+            <p class="action-description">Create PDF and Excel reports</p>
+        </a>
+
+        <a href="@Url.Action("Index", "Home")" class="action-card">
+            <i class="fas fa-home"></i>
+            <h3 class="action-title">Back to Home</h3>
+            <p class="action-description">Return to main portal</p>
+        </a>
+    </div>
+
+    <!-- Recent Activity Section (Optional) -->
+    <div style="margin-top: 50px; padding: 25px; background: @neutralGray; border-radius: 8px;">
+        <h3 style="color: @darkTeal; margin-bottom: 20px; text-align: center;">
+            <i class="fas fa-history"></i> Quick Actions
+        </h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px;">
+            <div style="text-align: center;">
+                <a href="@Url.Action("AddUser", "HR")" class="btn" style="background: @darkGreen; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; display: inline-block;">
+                    <i class="fas fa-user-plus"></i> Add New User
+                </a>
+            </div>
+            <div style="text-align: center;">
+                <a href="@Url.Action("GenerateReport", "HR")" class="btn" style="background: @mutedCyan; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; display: inline-block;">
+                    <i class="fas fa-download"></i> Download Reports
+                </a>
+            </div>
+            <div style="text-align: center;">
+                <a href="@Url.Action("ManageClaims", "HR")" class="btn" style="background: @darkTeal; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; display: inline-block;">
+                    <i class="fas fa-search"></i> View All Claims
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">

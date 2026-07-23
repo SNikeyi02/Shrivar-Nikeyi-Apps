@@ -1,0 +1,137 @@
+﻿@{
+    ViewData["Title"] = "Oscorp pty";
+}
+
+@model Prog_POE.Models.LoginView
+
+<style>
+    .login-container {
+        display: flex;
+        height: 100vh;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .left-panel {
+        flex: 1;
+        background-image: url('images\background.png');
+        background-size: cover;
+        background-position: center;
+        background-color: #1E8449;
+        color: white;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+
+    .welcome-message {
+        font-size: 40px;
+        font-weight: bold;
+        margin-bottom: 30px;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+        color: #65A8B4;
+    }
+
+    .left-panel button {
+        margin: 15px 0;
+        width: 240px; 
+        padding: 15px; 
+        font-size: 18px; 
+        font-weight: 600;
+        background-color: rgba(209, 212, 199, 0.95);
+        color: #1E8449;
+        border: none;
+        border-radius: 8px; /* Rounded corners */
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+        .left-panel button:hover {
+            background-color: #2A737E;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+    .right-panel {
+        flex: 1.2;
+        background-color: #D1D4C7;
+        padding: 60px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Style for the logo image */
+    .login-logo {
+        max-width: 350px;
+        height: auto;
+        margin-bottom: 80px;
+    }
+
+    .login-form {
+        width: 350px;
+        padding: 18px;
+        font-size: 20px; 
+        font-weight: bold;
+        background-color: #1E8449;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        text-decoration: none; 
+    }
+
+        .login-form:hover {
+            /* Button hover color is Dark Teal */
+            background-color: #2A737E;
+            transform: translateY(-1px);
+        }
+
+    .forgot-password {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+        .forgot-password a {
+            /* Link color is Dark Green */
+            color: #1E8449;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+            .forgot-password a:hover {
+                color: #65A8B4;
+                text-decoration: underline;
+            }
+</style>
+
+<div class="login-container">
+    <div class="left-panel">
+        <div class="welcome-message">Welcome to Oscorp.</div>
+
+        <button onclick="location.href='/Home/About'">About Us</button>
+        <button onclick="location.href='/Home/Available'">Available Jobs</button>
+        <button onclick="location.href='/Home/Apply'">Become a Student</button>
+        <button onclick="location.href='/Home/Contact'">Contact Us</button>
+        <button onclick="location.href='/Home/FindUs'">Find Us</button>
+    </div>
+
+    <div class="right-panel">
+        <img src='images\Gemini.png' alt="Oscorp Logo" class="login-logo" width="350" height="100" />
+
+        <button onclick="location.href='/Login/Index'" class="login-form">Login</button>
+
+        <div class="forgot-password">
+            <a href="/Login/ForgotPassword">Forgot Password?</a>
+        </div>
+    </div>
+</div>

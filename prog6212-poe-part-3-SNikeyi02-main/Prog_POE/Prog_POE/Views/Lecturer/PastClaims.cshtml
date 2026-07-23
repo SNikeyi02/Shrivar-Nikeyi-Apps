@@ -1,0 +1,217 @@
+﻿@model List<Prog_POE.Models.LecturerClaimView>
+
+@{
+    ViewData["Title"] = "Past Claims";
+
+    // COLOR PALETTE 
+    var darkGreen = "#1E8449";
+    var lightGrayGreen = "#D1D4C7";
+    var mutedCyan = "#65A8B4";
+    var darkTeal = "#2A737E";
+    var neutralGray = "#F8F8F8";
+}
+
+<style>
+    body {
+        background-color: @lightGrayGreen;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .claims-container {
+        padding: 50px 20px;
+        max-width: 1200px;
+        margin: 50px auto;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        border-top: 5px solid @darkGreen;
+    }
+
+        .claims-container h2 {
+            color: @darkTeal;
+            font-size: 32px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid @mutedCyan;
+            padding-bottom: 15px;
+            text-align: center;
+        }
+
+    .btn-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        margin-bottom: 25px;
+        padding: 8px 15px;
+        background-color: #ddd;
+        color: #555;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background-color 0.2s, color 0.2s;
+    }
+
+        .btn-back:hover {
+            background-color: @darkTeal;
+            color: white;
+        }
+
+    /* --- Table Styling --- */
+    .claims-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin-top: 20px;
+    }
+
+        .claims-table th, .claims-table td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        .claims-table th {
+            background-color: @darkTeal;
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 14px;
+            border-bottom: 3px solid @darkGreen;
+        }
+
+        /* Rounding corners for the first row */
+        .claims-table thead th:first-child {
+            border-top-left-radius: 8px;
+        }
+
+        .claims-table thead th:last-child {
+            border-top-right-radius: 8px;
+        }
+
+        .claims-table tbody tr {
+            background-color: #ffffff;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.15s ease;
+        }
+
+            .claims-table tbody tr:nth-child(even) {
+                background-color: @neutralGray;
+            }
+
+            .claims-table tbody tr:hover {
+                background-color: #F0FFF0;
+                cursor: pointer;
+            }
+
+    /* Status Badges */
+    .status-badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        text-transform: capitalize;
+        white-space: nowrap;
+    }
+
+    .status-Pending {
+        background-color: @mutedCyan;
+        color: white;
+    }
+
+    .status-ManagerApproved {
+        background-color: #FFC300; 
+        color: #555;
+    }
+
+    .status-CoordinatorApproved {
+        background-color: @darkGreen;
+        color: white;
+    }
+
+    .status-Rejected {
+        background-color: #C0392B; 
+        color: white;
+    }
+
+    /* View Details Button */
+    .btn-view {
+        padding: 6px 12px;
+        background-color: @mutedCyan;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.2s;
+        font-size: 14px;
+    }
+
+        .btn-view:hover {
+            background-color: #4A8C98;
+        }
+
+    .no-claims {
+        text-align: center;
+        padding: 50px;
+        color: #777;
+        font-size: 18px;
+        border: 2px dashed #ddd;
+        border-radius: 8px;
+    }
+</style>
+
+<!-- Main container for displaying the lecturer's claim history -->
+<div class="claims-container">
+
+    <!-- Navigation link to return to the Lecturer Dashboard -->
+    <a href="@Url.Action("Home", "Lecturer")" class="btn-back">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </a>
+
+    <!-- Section heading for the claim history table -->
+    <h2>Past Claim History</h2>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="no-claims">
+            <i class="fas fa-exclamation-circle" style="margin-right: 10px;"></i>
+            No claims have been submitted yet.
+        </div>
+    }
+    else
+    {
+        <!-- Table displaying submitted claims -->
+        <table class="claims-table">
+            <thead>
+                <tr>
+                    <th>Claim Date</th>       <!-- Date the claim was submitted -->
+                    <th>Total Amount</th>     <!-- Total monetary value of the claim -->
+                    <th>Hours</th>            <!-- Regular hours worked -->
+                    <th>Overtime</th>         <!-- Overtime hours, if any -->
+                    <th>Status</th>           <!-- Current status of the claim -->
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var claim in Model)
+                {
+                    <tr>
+                        <td>#@claim.ClaimDate</td>
+
+                        <td>R @claim.TotalClaimAmount.ToString("N2")</td>
+
+                        <td>@claim.HoursWorked.ToString("N1")</td>
+
+                        <td>@(claim.OvertimeHours.HasValue? claim.OvertimeHours.Value.ToString("N1") : "N/A")</td>
+
+                        <td>
+                            <span class="status-badge status-@claim.Status">
+                                @claim.Status
+                            </span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">

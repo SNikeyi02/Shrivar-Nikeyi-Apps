@@ -1,0 +1,228 @@
+﻿@model List<Prog_POE.Models.CoordinatorView>
+
+@{
+    ViewData["Title"] = "Coordinator Dashboard";
+
+    var darkGreen = "#1E8449";
+    var lightGrayGreen = "#D1D4C7";
+    var mutedCyan = "#65A8B4";
+    var darkTeal = "#2A737E";
+    var dangerColor = "#E74C3C";
+}
+
+<style>
+    body {
+        background-color: @lightGrayGreen;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .dashboard-container {
+        max-width: 1000px;
+        margin: 50px auto;
+        padding: 30px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        border-top: 5px solid @darkGreen;
+    }
+
+    .dashboard-header {
+        font-size: 32px;
+        font-weight: bold;
+        color: @darkTeal;
+        margin-bottom: 30px;
+        border-bottom: 2px solid @mutedCyan;
+        padding-bottom: 10px;
+    }
+
+    .claim-card {
+        border: 2px solid @mutedCyan;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 25px;
+        background-color: #f9f9f9;
+    }
+
+    .claim-header {
+        font-size: 20px;
+        font-weight: bold;
+        color: @darkGreen;
+        margin-bottom: 10px;
+    }
+
+    .claim-details {
+        font-size: 16px;
+        color: #444;
+        margin-bottom: 10px;
+    }
+
+    .document-list {
+        list-style: none;
+        padding-left: 0;
+        margin-bottom: 10px;
+    }
+
+        .document-list li {
+            background-color: #eee;
+            padding: 6px 12px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+    .action-buttons {
+        margin-top: 15px;
+        display: flex;
+        gap: 10px;
+    }
+
+    .approve-btn, .reject-btn {
+        padding: 10px 20px;
+        font-weight: bold;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .approve-btn {
+        background-color: @darkGreen;
+        color: white;
+    }
+
+        .approve-btn:hover {
+            background-color: #145A32;
+        }
+
+    .reject-btn {
+        background-color: @dangerColor;
+        color: white;
+    }
+
+        .reject-btn:hover {
+            background-color: #C0392B;
+        }
+
+    .no-claims {
+        font-style: italic;
+        color: #777;
+        text-align: center;
+        margin-top: 40px;
+    }
+
+    .no-documents {
+        font-style: italic;
+        color: #777;
+        margin: 5px 0;
+    }
+
+    .logout-container {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .logout-button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: @darkTeal;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+        .logout-button:hover {
+            background-color: @mutedCyan;
+            color: white;
+            text-decoration: none;
+        }
+</style>
+
+<div class="dashboard-container">
+    <div class="dashboard-header">Coordinator Review Portal</div>
+
+    @if (Model != null && Model.Any())
+    {
+        foreach (var claim in Model)
+        {
+            <!-- Container for a single claim card -->
+            <div class="claim-card">
+
+                <!-- Header displaying the claim ID and lecturer's name -->
+                <div class="claim-header">
+                    Claim #@claim.ClaimId – @claim.LecturerName
+                </div>
+
+                <!-- Section showing core claim details: hours, overtime, amount, and status -->
+                <div class="claim-details">
+                    <strong>Hours Worked:</strong> @claim.HoursWorked<br />
+                    <strong>Overtime:</strong> @(claim.OvertimeHours?.ToString() ?? "0")<br /> <!-- Fixed null handling -->
+                    <strong>Total Amount:</strong> R @claim.TotalClaimAmount.ToString("N2")<br /> <!-- FIXED: Added space after R -->
+                    <strong>Status:</strong> @claim.Status
+                </div>
+
+                <!-- Section listing uploaded supporting documents, or a fallback message if none exist -->
+                <div class="claim-details">
+                    <strong>Documents:</strong>
+                    @if (claim.SupportingDocumentNames != null && claim.SupportingDocumentNames.Any())
+                    {
+                        <ul class="document-list">
+                            @foreach (var doc in claim.SupportingDocumentNames)
+                            {
+                                <li>
+                                    <i class="fas fa-file-alt" style="color:@mutedCyan;"></i>
+                                    <a asp-controller="Coordinator"
+                                       asp-action="DownloadDocument"
+                                       asp-route-fileName="@doc"
+                                       target="_blank"
+                                       style="color: @darkTeal; text-decoration: underline;">
+                                        @doc.Replace(".encrypted", "") <!-- Show actual filename -->
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <!-- Fallback message when no documents are uploaded -->
+                        <p class="no-documents">No documents uploaded.</p>
+                    }
+                </div>
+
+                <!-- Action buttons for approving or rejecting the claim -->
+                <div class="action-buttons">
+
+                    <!-- Form to approve the claim, posts to Coordinator controller -->
+                    <form asp-action="ApproveClaim" asp-controller="Coordinator" method="post" style="display: inline;">
+                        @Html.AntiForgeryToken() <!-- ADDED: Security token -->
+                        <input type="hidden" name="id" value="@claim.ClaimId" />
+                        <button type="submit" class="approve-btn">
+                            <i class="fas fa-check"></i> Approve <!-- Added icon -->
+                        </button>
+                    </form>
+
+                    <!-- Form to reject the claim, posts to Coordinator controller -->
+                    <form asp-action="RejectClaim" asp-controller="Coordinator" method="post" style="display: inline;">
+                        @Html.AntiForgeryToken() <!-- ADDED: Security token -->
+                        <input type="hidden" name="id" value="@claim.ClaimId" />
+                        <button type="submit" class="reject-btn">
+                            <i class="fas fa-times"></i> Reject <!-- Added icon -->
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="no-claims">No claims pending coordinator review.</div>
+    }
+</div>
+
+<div class="logout-container">
+    <a href="/Home/Index" class="logout-button">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">

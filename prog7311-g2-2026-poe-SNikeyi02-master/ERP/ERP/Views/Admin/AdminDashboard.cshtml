@@ -1,0 +1,144 @@
+﻿@model IEnumerable<ERP.Models.Contract>
+@using ERP.Enums
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h2 text-primary mb-0"><i class="bi bi-speedometer2"></i> Logistics Management Dashboard</h1>
+        <a asp-action="CreateClient" asp-controller="Admin" class="btn btn-success shadow-sm">
+            <i class="bi bi-person-plus-fill"></i> Add New Client
+        </a>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-dark text-white">
+            <h5 class="mb-0">Filter Contracts</h5>
+        </div>
+        <div class="card-body">
+            <form asp-action="AdminDashboard" asp-controller="Admin" method="get" class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label fw-bold small text-muted">Status</label>
+                    <select name="status" class="form-select" asp-items="Html.GetEnumSelectList<ContractStatus>()">
+                        <option value="">-- All Statuses --</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-bold small text-muted">Start Date</label>
+                    <input type="date" name="startDate" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-bold small text-muted">End Date</label>
+                    <input type="date" name="endDate" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <div class="btn-group w-100">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-search"></i> Apply Filters
+                        </button>
+                        <a asp-action="AdminDashboard" asp-controller="Admin" class="btn btn-outline-secondary">Reset</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Client Name</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Service Level</th>
+                        <th>Status</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (Model == null || !Model.Any())
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center text-muted py-4">No contracts found matching those filters.</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td><strong>@item.Client?.Name</strong></td>
+                                <td>@item.StartDate.ToShortDateString()</td>
+                                <td>@item.EndDate.ToShortDateString()</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(item.ServiceLevel))
+                                    {
+                                        var parts = item.ServiceLevel.Split(';', StringSplitOptions.RemoveEmptyEntries);
+                                        string isolatedServiceLevel = "Standard Tier"; // Fallback default state text
+                                        foreach (var part in parts)
+                                        {
+                                            var cleanPart = part.Trim();
+                                            if (cleanPart.Contains("Client", StringComparison.OrdinalIgnoreCase) || cleanPart.Contains("Tier", StringComparison.OrdinalIgnoreCase))
+                                            {
+                                                if (cleanPart.Contains(":"))
+                                                {
+                                                    isolatedServiceLevel = cleanPart.Substring(cleanPart.IndexOf(":") + 1).Trim();
+                                                }
+                                                else
+                                                {
+                                                    isolatedServiceLevel = cleanPart;
+                                                }
+                                                break;
+                                            }
+                                        }
+                                        <span>@isolatedServiceLevel</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted small">Not Defined</span>
+                                    }
+                                </td>
+                                <td>
+                                    @{
+                                        var badgeClass = item.Status switch
+                                        {
+                                            ContractStatus.Active => "bg-success",
+                                            ContractStatus.Expired => "bg-danger",
+                                            ContractStatus.OnHold => "bg-warning text-dark",
+                                            _ => "bg-secondary"
+                                        };
+                                    }
+                                    <span class="badge @badgeClass">@item.Status</span>
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group btn-group-sm">
+                                        <a asp-action="ViewContract" asp-controller="Admin" asp-route-id="@item.ContractId" class="btn btn-outline-primary" title="Manage Contract">
+                                            <i class="bi bi-eye"></i> Manage
+                                        </a>
+
+                                        @if (!string.IsNullOrEmpty(item.AgreementFilePath))
+                                        {
+                                            <a asp-action="ViewPDF" asp-controller="Admin" asp-route-id="@item.ContractId" target="_blank" class="btn btn-outline-danger" title="View PDF Document">
+                                                <i class="bi bi-file-pdf"></i> PDF
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-outline-secondary disabled" title="No PDF Document Linked">
+                                                <i class="bi bi-file-pdf"></i>
+                                            </button>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
