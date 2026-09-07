@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "215904166223",
+    "project_id": "campuspass-e5a53",
+    "storage_bucket": "campuspass-e5a53.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:215904166223:android:77b13c4b37a6035351653a",
+        "android_client_info": {
+          "package_name": "com.example.campuspass"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "215904166223-k0orho4sgke36rd3oms3irohucts2l3j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmBRgAorCRxrBGNqzMtGiCHfIW9qmYoeQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "215904166223-k0orho4sgke36rd3oms3irohucts2l3j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
